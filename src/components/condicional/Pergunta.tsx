@@ -1,18 +1,33 @@
-import { useState } from "react";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import If from "./If";
 
-export default function Pergunta() {
-  const [aberta, setAberta] = useState(false);
+interface PerguntaProps {
+  pergunta: string;
+  resposta: string;
+  aberta: boolean;
+  indice: number;
+  onClick: (indice: number) => void;
+}
 
+export default function Pergunta({
+  pergunta,
+  resposta,
+  aberta,
+  indice,
+  onClick,
+}: Readonly<PerguntaProps>) {
   return (
-    <div className="border border-white rounded-md">
+    <div className="border border-zinc-600 rounded-md overflow-hidden">
       <div
-        className="bg-zinc-700 p-5 cursor-pointer"
-        onClick={() => setAberta((prev) => !prev)}
+        className="bg-zinc-800 p-5 cursor-pointer select-none flex justify-between"
+        onClick={() => onClick(indice)}
       >
-        Pergunta
+        <span>{pergunta}</span>
+        {aberta ? <IconChevronUp /> : <IconChevronDown />}
       </div>
-      {aberta ? "Sim" : "Não"}
-      <div className="p-5">Resposta</div>
+      <If teste={aberta}>
+        <div className="p-5">{resposta}</div>
+      </If>
     </div>
   );
 }
